@@ -1,29 +1,23 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { RampCost, FilterState, getCostColor } from "@/lib/types";
-import { formatPercent, getCostValue, getBestRate, getConfidenceBadgeClass } from "@/lib/utils";
+import { RampCost, getCostColor } from "@/lib/types";
+import { formatPercent, getBestRate, getConfidenceBadgeClass } from "@/lib/utils";
 
 interface RegionTableProps {
   data: RampCost[];
-  filters: FilterState;
   onCountrySelect: (country: RampCost) => void;
 }
 
 type SortColumn = "country" | "region" | "bankOnRamp" | "cardOnRamp" | "offRamp" | "p2p" | "bestRate";
 type SortDirection = "asc" | "desc";
 
-export default function RegionTable({ data, filters, onCountrySelect }: RegionTableProps) {
+export default function RegionTable({ data, onCountrySelect }: RegionTableProps) {
   const [sortColumn, setSortColumn] = useState<SortColumn>("bankOnRamp");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
-  const filteredData = useMemo(() => {
-    if (filters.selectedRegion === "all") return data;
-    return data.filter((country) => country.region === filters.selectedRegion);
-  }, [data, filters.selectedRegion]);
-
   const sortedData = useMemo(() => {
-    return [...filteredData].sort((a, b) => {
+    return [...data].sort((a, b) => {
       let aVal: string | number | null;
       let bVal: string | number | null;
 
@@ -72,7 +66,7 @@ export default function RegionTable({ data, filters, onCountrySelect }: RegionTa
       const comparison = String(aVal).localeCompare(String(bVal));
       return sortDirection === "asc" ? comparison : -comparison;
     });
-  }, [filteredData, sortColumn, sortDirection]);
+  }, [data, sortColumn, sortDirection]);
 
   const handleSort = (column: SortColumn) => {
     if (sortColumn === column) {
@@ -85,13 +79,13 @@ export default function RegionTable({ data, filters, onCountrySelect }: RegionTa
 
   const SortHeader = ({ column, children }: { column: SortColumn; children: React.ReactNode }) => (
     <th
-      className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider cursor-pointer hover:bg-slate-100 transition-colors"
+      className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider cursor-pointer hover:bg-slate-700 transition-colors"
       onClick={() => handleSort(column)}
     >
       <div className="flex items-center gap-1">
         {children}
         {sortColumn === column && (
-          <span className="text-slate-400">
+          <span className="text-slate-500">
             {sortDirection === "asc" ? "↑" : "↓"}
           </span>
         )}
@@ -108,25 +102,25 @@ export default function RegionTable({ data, filters, onCountrySelect }: RegionTa
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: color }}
           />
-          <span className="text-sm text-slate-900">{formatPercent(value)}</span>
+          <span className="text-sm text-white">{formatPercent(value)}</span>
         </div>
       </td>
     );
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-200">
-        <h2 className="text-lg font-semibold text-slate-900">
+    <div className="bg-slate-800 rounded-lg shadow-sm border border-slate-700 overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-700">
+        <h2 className="text-lg font-semibold text-white">
           Regional Comparison
         </h2>
         <p className="text-sm text-slate-500">
-          {filteredData.length} countries • Click a row for details
+          {data.length} countries • Click a row for details
         </p>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-slate-200">
-          <thead className="bg-slate-50">
+        <table className="min-w-full divide-y divide-slate-700">
+          <thead className="bg-slate-900">
             <tr>
               <SortHeader column="country">Country</SortHeader>
               <SortHeader column="region">Region</SortHeader>
@@ -135,32 +129,32 @@ export default function RegionTable({ data, filters, onCountrySelect }: RegionTa
               <SortHeader column="offRamp">Off-ramp</SortHeader>
               <SortHeader column="p2p">P2P Spread</SortHeader>
               <SortHeader column="bestRate">Best Rate</SortHeader>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Source
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
                 Confidence
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-slate-200">
+          <tbody className="bg-slate-800 divide-y divide-slate-700">
             {sortedData.map((country) => {
               const bestRate = getBestRate(country);
               return (
                 <tr
                   key={country.countryCode}
                   onClick={() => onCountrySelect(country)}
-                  className="hover:bg-slate-50 cursor-pointer transition-colors"
+                  className="hover:bg-slate-900 cursor-pointer transition-colors"
                 >
                   <td className="px-4 py-3 whitespace-nowrap">
                     <div className="flex items-center gap-2">
                       <span className="text-lg">{getFlagEmoji(country.countryCode)}</span>
-                      <span className="text-sm font-medium text-slate-900">
+                      <span className="text-sm font-medium text-white">
                         {country.country}
                       </span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-600">
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-500">
                     {country.region}
                   </td>
                   <CostCell value={country.onRamp.bank} />
@@ -174,15 +168,15 @@ export default function RegionTable({ data, filters, onCountrySelect }: RegionTa
                           className="w-3 h-3 rounded-full"
                           style={{ backgroundColor: getCostColor(bestRate.value) }}
                         />
-                        <span className="text-sm font-medium text-slate-900">
+                        <span className="text-sm font-medium text-white">
                           {formatPercent(bestRate.value)}
                         </span>
                       </div>
                     ) : (
-                      <span className="text-sm text-slate-400">N/A</span>
+                      <span className="text-sm text-slate-500">N/A</span>
                     )}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-600">
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-500">
                     {country.sources.slice(0, 2).join(", ")}
                     {country.sources.length > 2 && "..."}
                   </td>

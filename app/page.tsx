@@ -2,13 +2,12 @@
 
 import { useState } from "react";
 import Header from "./components/Header";
-import FilterControls from "./components/FilterControls";
 import RegionTable from "./components/RegionTable";
 import CostMap from "./components/CostMap";
 import TrendChart from "./components/TrendChart";
 import CountryDetail from "./components/CountryDetail";
 import RampModels from "./components/RampModels";
-import { RampCost, FilterState, Region, CostData } from "@/lib/types";
+import { RampCost, Region, CostData } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import costData from "@/data/costs-current.json";
 import rampModelsData from "@/data/ramp-models.json";
@@ -19,11 +18,6 @@ export default function Home() {
   const data = costData as CostData;
 
   const [activeTab, setActiveTab] = useState<TabView>("models");
-  const [filters, setFilters] = useState<FilterState>({
-    viewMode: "onramp",
-    fundingMethod: "bank",
-    selectedRegion: "all",
-  });
   const [selectedCountry, setSelectedCountry] = useState<RampCost | null>(null);
 
   const regions = data.regions.map((r) => r.region) as Region[];
@@ -36,7 +30,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-slate-900">
       <Header lastUpdated={formatDate(data.metadata.generatedAt)} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
@@ -46,6 +40,7 @@ export default function Home() {
             label="Best Bank Rate"
             value="0%"
             sublabel="United States (Coinbase)"
+            accent
           />
           <StatCard
             label="Highest Region"
@@ -64,24 +59,17 @@ export default function Home() {
           />
         </div>
 
-        {/* Filter Controls */}
-        <FilterControls
-          filters={filters}
-          onFilterChange={setFilters}
-          regions={regions}
-        />
-
         {/* Tab Navigation */}
-        <div className="border-b border-slate-200">
-          <nav className="flex gap-4" aria-label="Tabs">
+        <div className="bg-slate-800 rounded-lg shadow-sm border border-slate-700 p-1">
+          <nav className="flex gap-1" aria-label="Tabs">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-3 px-1 border-b-2 text-sm font-medium transition-colors ${
+                className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-colors ${
                   activeTab === tab.id
-                    ? "border-slate-900 text-slate-900"
-                    : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300"
+                    ? "bg-emerald-500 text-white shadow-sm"
+                    : "text-slate-400 hover:text-white hover:bg-slate-700"
                 }`}
               >
                 {tab.label}
@@ -92,22 +80,21 @@ export default function Home() {
 
         {/* Content */}
         <div>
+          {activeTab === "models" && (
+            <RampModels models={rampModelsData.models} />
+          )}
           {activeTab === "table" && (
             <RegionTable
               data={data.countries}
-              filters={filters}
               onCountrySelect={setSelectedCountry}
             />
           )}
           {activeTab === "map" && (
             <CostMap
               data={data.countries}
-              filters={filters}
+              regions={regions}
               onCountrySelect={setSelectedCountry}
             />
-          )}
-          {activeTab === "models" && (
-            <RampModels models={rampModelsData.models} />
           )}
           {activeTab === "trends" && (
             <TrendChart regions={data.regions} />
@@ -120,7 +107,7 @@ export default function Home() {
             Data sourced from exchange APIs and the{" "}
             <a
               href="https://bluechip.org"
-              className="text-slate-700 hover:underline"
+              className="text-emerald-400 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -149,16 +136,22 @@ function StatCard({
   label,
   value,
   sublabel,
+  accent,
 }: {
   label: string;
   value: string;
   sublabel?: string;
+  accent?: boolean;
 }) {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-4">
-      <p className="text-sm text-slate-500">{label}</p>
-      <p className="text-2xl font-bold text-slate-900 mt-1">{value}</p>
-      {sublabel && <p className="text-xs text-slate-400 mt-1">{sublabel}</p>}
+    <div className={`rounded-lg shadow-sm border p-4 ${
+      accent
+        ? "bg-gradient-to-br from-emerald-500 to-emerald-600 border-emerald-400 text-white"
+        : "bg-slate-800 border-slate-700"
+    }`}>
+      <p className={`text-sm ${accent ? "text-emerald-100" : "text-slate-400"}`}>{label}</p>
+      <p className={`text-2xl font-bold mt-1 ${accent ? "text-white" : "text-white"}`}>{value}</p>
+      {sublabel && <p className={`text-xs mt-1 ${accent ? "text-emerald-100" : "text-slate-500"}`}>{sublabel}</p>}
     </div>
   );
 }

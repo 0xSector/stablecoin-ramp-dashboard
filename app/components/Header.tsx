@@ -6,7 +6,7 @@ interface HeaderProps {
 
 export default function Header({ lastUpdated }: HeaderProps) {
   return (
-    <header className="bg-slate-900 text-white py-6 px-4 sm:px-6 lg:px-8">
+    <header className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-6 px-4 sm:px-6 lg:px-8 shadow-lg">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -19,7 +19,7 @@ export default function Header({ lastUpdated }: HeaderProps) {
           </div>
           <div className="text-sm text-slate-400">
             <span>Last updated: </span>
-            <span className="text-slate-300">{lastUpdated}</span>
+            <span className="text-white font-medium">{lastUpdated}</span>
           </div>
         </div>
       </div>

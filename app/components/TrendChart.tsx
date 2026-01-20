@@ -49,12 +49,12 @@ export default function TrendChart({ regions }: TrendChartProps) {
   const trendData = generateTrendData(regions);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-200">
-        <h2 className="text-lg font-semibold text-slate-900">
+    <div className="bg-slate-800 rounded-lg shadow-sm border border-slate-700 overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-700">
+        <h2 className="text-lg font-semibold text-white">
           Cost Trends by Region
         </h2>
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-slate-400">
           Bank on-ramp costs over time (%)
         </p>
       </div>
@@ -63,24 +63,25 @@ export default function TrendChart({ regions }: TrendChartProps) {
         <div className="h-80">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={trendData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
               <XAxis
                 dataKey="month"
-                tick={{ fontSize: 12, fill: "#64748b" }}
-                tickLine={{ stroke: "#e2e8f0" }}
+                tick={{ fontSize: 12, fill: "#94a3b8" }}
+                tickLine={{ stroke: "#334155" }}
               />
               <YAxis
-                tick={{ fontSize: 12, fill: "#64748b" }}
-                tickLine={{ stroke: "#e2e8f0" }}
+                tick={{ fontSize: 12, fill: "#94a3b8" }}
+                tickLine={{ stroke: "#334155" }}
                 tickFormatter={(value) => `${value}%`}
                 domain={[0, "auto"]}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: "#fff",
-                  border: "1px solid #e2e8f0",
+                  backgroundColor: "#1e293b",
+                  border: "1px solid #334155",
                   borderRadius: "8px",
                   fontSize: "12px",
+                  color: "#f1f5f9",
                 }}
                 formatter={(value) => {
                   if (typeof value === "number") {
@@ -88,9 +89,10 @@ export default function TrendChart({ regions }: TrendChartProps) {
                   }
                   return ["", ""];
                 }}
+                labelStyle={{ color: "#f1f5f9" }}
               />
               <Legend
-                wrapperStyle={{ fontSize: "12px" }}
+                wrapperStyle={{ fontSize: "12px", color: "#94a3b8" }}
                 iconType="line"
               />
               {regions.map((region) => (
@@ -109,11 +111,6 @@ export default function TrendChart({ regions }: TrendChartProps) {
         </div>
       </div>
 
-      <div className="px-4 py-3 border-t border-slate-200 bg-slate-50">
-        <p className="text-xs text-slate-500 text-center">
-          Historical data is simulated for demo. Real trends will populate as monthly updates accumulate.
-        </p>
-      </div>
     </div>
   );
 }
