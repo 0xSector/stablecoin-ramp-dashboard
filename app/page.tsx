@@ -40,7 +40,6 @@ export default function Home() {
             label="Best Bank Rate"
             value="0%"
             sublabel="United States (Coinbase)"
-            accent
           />
           <StatCard
             label="Highest Region"

@@ -18,7 +18,7 @@ interface TrendChartProps {
 
 // Sample trend data - in production this would come from historical files
 const generateTrendData = (regions: RegionalSummary[]) => {
-  const months = ["Oct 2025", "Nov 2025", "Dec 2025", "Jan 2026"];
+  const months = ["Dec 2025", "Jan 2026"];
 
   return months.map((month, idx) => {
     const dataPoint: Record<string, string | number> = { month };
