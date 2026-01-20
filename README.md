@@ -1,36 +1,119 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Stablecoin Ramping Costs Dashboard
+
+A public dashboard tracking global stablecoin on-ramp and off-ramp costs across regions and funding methods.
+
+## Features
+
+- **Comparison Table**: Sortable table with costs by country (bank, card, P2P)
+- **Interactive Map**: Choropleth visualization of global ramping costs
+- **Trend Charts**: Historical cost trends by region
+- **Country Details**: Detailed breakdown with data sources and confidence levels
+
+## Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS
+- **Charts**: Recharts
+- **Maps**: react-simple-maps
+- **Deployment**: Vercel
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+stablecoin-ramp-dashboard/
+├── app/
+│   ├── components/
+│   │   ├── CostMap.tsx        # Choropleth map
+│   │   ├── CountryDetail.tsx  # Detail modal
+│   │   ├── FilterControls.tsx # View/region filters
+│   │   ├── Header.tsx
+│   │   ├── RegionTable.tsx    # Main comparison table
+│   │   └── TrendChart.tsx     # Line chart
+│   ├── api/costs/route.ts     # API endpoint
+│   ├── layout.tsx
+│   └── page.tsx
+├── data/
+│   ├── costs-current.json     # Current month data
+│   ├── costs-historical/      # Monthly archives
+│   └── countries.json         # Country metadata
+├── lib/
+│   ├── types.ts               # TypeScript interfaces
+│   └── utils.ts               # Helper functions
+├── scripts/
+│   └── update-costs.ts        # Monthly update script
+├── DATA_SOURCES.md            # API research & recommendations
+└── UPDATE_PROCESS.md          # Monthly update instructions
+```
 
-## Learn More
+## Data Sources
 
-To learn more about Next.js, take a look at the following resources:
+### Automated (Free APIs)
+- **Kraken**: CEX prices for G10 fiat/stablecoin pairs
+- **Frankfurter**: Mid-market FX rates (ECB data)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Manual Reference
+- **MoonPay/Transak**: Card-funded ramp costs (via widgets)
+- **Yellow Card**: African market rates
+- **Binance P2P**: P2P spread data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Static Reference
+- **Bluechip Report**: Regional cost baselines
 
-## Deploy on Vercel
+See [DATA_SOURCES.md](./DATA_SOURCES.md) for full API documentation.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Monthly Updates
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The data is updated monthly. See [UPDATE_PROCESS.md](./UPDATE_PROCESS.md) for instructions.
+
+Quick update:
+```bash
+npx ts-node scripts/update-costs.ts
+git add data/ && git commit -m "chore: monthly update" && git push
+```
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push to GitHub
+2. Import project in Vercel
+3. Deploy
+
+The dashboard uses static generation, so it's fast and free to host.
+
+### Manual
+
+```bash
+npm run build
+npm start
+```
+
+## Cost Tier Legend
+
+| Color | Range | Description |
+|-------|-------|-------------|
+| Green | < 0.5% | Excellent |
+| Light Green | 0.5-1% | Good |
+| Yellow | 1-2.5% | Moderate |
+| Orange | 2.5-5% | High |
+| Red | > 5% | Very High |
+
+## License
+
+MIT
