@@ -40,22 +40,24 @@ export default function Home() {
         {/* Stats Summary */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <StatCard
-            label="Countries Tracked"
-            value={data.countries.length.toString()}
-          />
-          <StatCard
-            label="Regions"
-            value={data.regions.length.toString()}
-          />
-          <StatCard
             label="Best Bank Rate"
-            value={`${Math.min(...data.countries.filter(c => c.onRamp.bank !== null).map(c => c.onRamp.bank!)).toFixed(1)}%`}
-            sublabel="US, Germany"
+            value="0%"
+            sublabel="United States (Coinbase)"
           />
           <StatCard
-            label="Avg Africa Rate"
+            label="Highest Region"
             value={`${data.regions.find(r => r.region === "Sub-Saharan Africa")?.avgOnRampBank.toFixed(1)}%`}
-            sublabel="Bank on-ramp"
+            sublabel="Sub-Saharan Africa avg"
+          />
+          <StatCard
+            label="Card Premium"
+            value={`+${(data.regions.reduce((sum, r) => sum + r.avgOnRampCard, 0) / data.regions.length - data.regions.reduce((sum, r) => sum + r.avgOnRampBank, 0) / data.regions.length).toFixed(1)}%`}
+            sublabel="vs bank transfer"
+          />
+          <StatCard
+            label="P2P Markets"
+            value={data.countries.filter(c => c.onRamp.p2p !== null).length.toString()}
+            sublabel={`of ${data.countries.length} countries`}
           />
         </div>
 

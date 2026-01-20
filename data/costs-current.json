@@ -10,10 +10,10 @@
       "countryCode": "US",
       "region": "North America",
       "currency": "USD",
-      "onRamp": { "bank": 0.1, "card": 3.5, "p2p": null },
-      "offRamp": { "bank": 0.1, "p2p": null },
+      "onRamp": { "bank": 0, "card": 3.5, "p2p": null },
+      "offRamp": { "bank": 0, "p2p": null },
       "fxSpread": { "vsMidMarket": 0.0, "currencyType": "G10" },
-      "sources": ["Coinbase", "Kraken"],
+      "sources": ["Coinbase"],
       "lastUpdated": "2026-01-15",
       "confidence": "high"
     },
@@ -465,9 +465,9 @@
   "regions": [
     {
       "region": "North America",
-      "avgOnRampBank": 0.15,
+      "avgOnRampBank": 0.1,
       "avgOnRampCard": 3.5,
-      "avgOffRamp": 0.15,
+      "avgOffRamp": 0.1,
       "avgP2PSpread": 0.0,
       "countries": ["US", "CA"]
     },
