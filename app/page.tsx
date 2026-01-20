@@ -55,9 +55,9 @@ export default function Home() {
             sublabel="vs bank transfer"
           />
           <StatCard
-            label="P2P Markets"
-            value={data.countries.filter(c => c.onRamp.p2p !== null).length.toString()}
-            sublabel={`of ${data.countries.length} countries`}
+            label="Countries"
+            value={data.countries.length.toString()}
+            sublabel={`across ${data.regions.length} regions`}
           />
         </div>
 
