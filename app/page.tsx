@@ -18,7 +18,7 @@ type TabView = "table" | "map" | "trends" | "models";
 export default function Home() {
   const data = costData as CostData;
 
-  const [activeTab, setActiveTab] = useState<TabView>("table");
+  const [activeTab, setActiveTab] = useState<TabView>("models");
   const [filters, setFilters] = useState<FilterState>({
     viewMode: "onramp",
     fundingMethod: "bank",
@@ -29,9 +29,9 @@ export default function Home() {
   const regions = data.regions.map((r) => r.region) as Region[];
 
   const tabs: { id: TabView; label: string }[] = [
+    { id: "models", label: "Ramp Types" },
     { id: "table", label: "Comparison Table" },
     { id: "map", label: "Cost Map" },
-    { id: "models", label: "Ramp Types" },
     { id: "trends", label: "Trends" },
   ];
 

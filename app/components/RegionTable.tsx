@@ -14,7 +14,7 @@ type SortColumn = "country" | "region" | "bankOnRamp" | "cardOnRamp" | "offRamp"
 type SortDirection = "asc" | "desc";
 
 export default function RegionTable({ data, filters, onCountrySelect }: RegionTableProps) {
-  const [sortColumn, setSortColumn] = useState<SortColumn>("country");
+  const [sortColumn, setSortColumn] = useState<SortColumn>("bankOnRamp");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
   const filteredData = useMemo(() => {
