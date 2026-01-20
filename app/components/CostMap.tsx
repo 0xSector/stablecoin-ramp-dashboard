@@ -12,16 +12,16 @@ import { getCostValue } from "@/lib/utils";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-// Map ISO 3166-1 alpha-2 to alpha-3 for matching with TopoJSON
+// Map ISO 3166-1 alpha-2 to numeric codes for matching with TopoJSON
 const countryCodeMap: Record<string, string> = {
-  US: "USA", CA: "CAN", GB: "GBR", DE: "DEU", FR: "FRA", NL: "NLD", ES: "ESP", CH: "CHE",
-  BR: "BRA", MX: "MEX", AR: "ARG", CO: "COL", PE: "PER", VE: "VEN",
-  NG: "NGA", KE: "KEN", ZA: "ZAF", GH: "GHA", TZ: "TZA", UG: "UGA",
-  TR: "TUR", EG: "EGY", AE: "ARE", SA: "SAU",
-  IN: "IND", PK: "PAK", BD: "BGD",
-  PH: "PHL", ID: "IDN", TH: "THA", VN: "VNM", MY: "MYS", SG: "SGP",
-  JP: "JPN", KR: "KOR", HK: "HKG",
-  AU: "AUS", NZ: "NZL",
+  US: "840", CA: "124", GB: "826", DE: "276", FR: "250", NL: "528", ES: "724", CH: "756",
+  BR: "076", MX: "484", AR: "032", CO: "170", PE: "604", VE: "862",
+  NG: "566", KE: "404", ZA: "710", GH: "288", TZ: "834", UG: "800",
+  TR: "792", EG: "818", AE: "784", SA: "682",
+  IN: "356", PK: "586", BD: "050",
+  PH: "608", ID: "360", TH: "764", VN: "704", MY: "458", SG: "702",
+  JP: "392", KR: "410", HK: "344",
+  AU: "036", NZ: "554",
 };
 
 interface CostMapProps {
