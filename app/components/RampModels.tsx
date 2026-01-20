@@ -24,7 +24,7 @@ const costLevelColors: Record<string, { bg: string; text: string }> = {
   "Low": { bg: "bg-green-50", text: "text-green-700" },
   "Medium": { bg: "bg-yellow-50", text: "text-yellow-700" },
   "High": { bg: "bg-orange-50", text: "text-orange-700" },
-  "Low to High": { bg: "bg-slate-700", text: "text-slate-700" },
+  "Low to High": { bg: "bg-purple-100", text: "text-purple-800" },
 };
 
 export default function RampModels({ models }: RampModelsProps) {
