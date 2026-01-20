@@ -7,11 +7,13 @@ import RegionTable from "./components/RegionTable";
 import CostMap from "./components/CostMap";
 import TrendChart from "./components/TrendChart";
 import CountryDetail from "./components/CountryDetail";
+import RampModels from "./components/RampModels";
 import { RampCost, FilterState, Region, CostData } from "@/lib/types";
 import { formatDate } from "@/lib/utils";
 import costData from "@/data/costs-current.json";
+import rampModelsData from "@/data/ramp-models.json";
 
-type TabView = "table" | "map" | "trends";
+type TabView = "table" | "map" | "trends" | "models";
 
 export default function Home() {
   const data = costData as CostData;
@@ -29,6 +31,7 @@ export default function Home() {
   const tabs: { id: TabView; label: string }[] = [
     { id: "table", label: "Comparison Table" },
     { id: "map", label: "Cost Map" },
+    { id: "models", label: "Ramp Types" },
     { id: "trends", label: "Trends" },
   ];
 
@@ -102,6 +105,9 @@ export default function Home() {
               filters={filters}
               onCountrySelect={setSelectedCountry}
             />
+          )}
+          {activeTab === "models" && (
+            <RampModels models={rampModelsData.models} />
           )}
           {activeTab === "trends" && (
             <TrendChart regions={data.regions} />

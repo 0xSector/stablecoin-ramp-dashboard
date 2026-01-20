@@ -1,0 +1,76 @@
+{
+  "models": [
+    {
+      "id": "cex-order-book",
+      "name": "CEX - Order Book",
+      "costRange": "0-0.3%",
+      "costLevel": "Low",
+      "description": "Trade directly on exchange order books with limit/market orders. Requires KYC and exchange account. Best spreads but more complex UX.",
+      "howItWorks": "Users deposit fiat via bank transfer, then place buy/sell orders on the exchange's order book. Pricing is determined by market makers and liquidity depth.",
+      "providers": ["Coinbase Pro", "Kraken", "Binance", "Bitstamp"],
+      "bestFor": "High-volume traders, institutions, users comfortable with trading interfaces",
+      "pros": ["Lowest fees", "Best price discovery", "Deep liquidity for major pairs"],
+      "cons": ["Complex UX", "Requires trading knowledge", "KYC required", "Bank transfer delays"]
+    },
+    {
+      "id": "cex-convert",
+      "name": "CEX - Convert",
+      "costRange": "0-1.5%",
+      "costLevel": "Medium",
+      "description": "Simple buy/sell interface on exchanges with instant conversion. Higher spread than order book but much simpler UX.",
+      "howItWorks": "One-click conversion between fiat and stablecoins at a quoted price. The exchange handles order routing internally and charges a spread.",
+      "providers": ["Coinbase", "Kraken", "Binance Convert", "Crypto.com"],
+      "bestFor": "Retail users, beginners, those who prefer simplicity over optimization",
+      "pros": ["Simple UX", "Instant quotes", "No trading knowledge needed"],
+      "cons": ["Higher spread than order book", "Less price transparency", "KYC required"]
+    },
+    {
+      "id": "issuer-window",
+      "name": "Issuer Window",
+      "costRange": "0-0.1%",
+      "costLevel": "Lowest",
+      "description": "Direct mint/redeem with stablecoin issuers like Circle or Tether. Lowest cost but high minimums ($100K+) and institutional access only.",
+      "howItWorks": "Qualified institutions send USD directly to the issuer and receive newly minted stablecoins 1:1 (or vice versa for redemptions).",
+      "providers": ["Circle (USDC)", "Tether (USDT)", "Paxos (USDP/PYUSD)"],
+      "bestFor": "Institutions, OTC desks, large treasury operations, market makers",
+      "pros": ["Lowest possible cost", "1:1 conversion", "No slippage"],
+      "cons": ["High minimums ($100K-$1M+)", "Institutional access only", "KYC/AML requirements", "Settlement delays (1-3 days)"]
+    },
+    {
+      "id": "standalone-ramps",
+      "name": "Standalone Ramps",
+      "costRange": "1-4%",
+      "costLevel": "High",
+      "description": "Third-party on/off-ramp services that can be embedded in wallets and dApps. Convenient but expensive, especially for card payments.",
+      "howItWorks": "Widget-based checkout flow. Users enter payment details, complete KYC, and receive stablecoins directly to their wallet address.",
+      "providers": ["MoonPay", "Transak", "Ramp Network", "Simplex", "Banxa"],
+      "bestFor": "DeFi users, wallet users, those without exchange accounts, convenience-focused",
+      "pros": ["Embedded in wallets/dApps", "Direct to self-custody", "Card payments supported", "Fast"],
+      "cons": ["Highest fees", "Card fees add 3-5%", "Lower limits", "Variable KYC"]
+    },
+    {
+      "id": "otc-desks",
+      "name": "OTC Desks",
+      "costRange": "0.02-0.2%",
+      "costLevel": "Low",
+      "description": "Over-the-counter trading for large volumes. Negotiated pricing with white-glove service. Typically $100K+ minimum.",
+      "howItWorks": "Contact OTC desk, negotiate price and settlement terms, execute trade bilaterally. Often settles via bank wire + on-chain transfer.",
+      "providers": ["Circle Trade", "Cumberland (DRW)", "Galaxy Digital", "Genesis", "B2C2"],
+      "bestFor": "Institutions, funds, corporate treasuries, large individual holders",
+      "pros": ["Best rates for size", "No slippage", "Personalized service", "Flexible settlement"],
+      "cons": ["High minimums", "Requires relationship", "Not instant", "Manual process"]
+    },
+    {
+      "id": "p2p-platforms",
+      "name": "P2P Platforms",
+      "costRange": "0.1-0.5%",
+      "costLevel": "Low to High",
+      "description": "Peer-to-peer marketplaces matching buyers and sellers directly. Spreads vary widely by region and liquidity.",
+      "howItWorks": "Users post buy/sell ads or take existing offers. Payment is made directly between peers (bank transfer, mobile money, cash). Platform provides escrow.",
+      "providers": ["Binance P2P", "Paxful", "LocalBitcoins (defunct)", "Noones"],
+      "bestFor": "Emerging markets, unbanked users, regions with restricted exchange access, privacy-conscious",
+      "pros": ["Works in restricted regions", "Multiple payment methods", "No direct KYC sometimes", "Local currency support"],
+      "cons": ["Counterparty risk", "Variable spreads", "Slower", "Scam risk", "Manual process"]
+    }
+  ]
+}
