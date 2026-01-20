@@ -1,6 +1,6 @@
 "use client";
 
-import { ViewMode, FundingMethod, Region, FilterState } from "@/lib/types";
+import { ViewMode, Region, FilterState } from "@/lib/types";
 
 interface FilterControlsProps {
   filters: FilterState;
@@ -17,11 +17,6 @@ export default function FilterControls({
     { value: "onramp", label: "On-Ramp" },
     { value: "offramp", label: "Off-Ramp" },
     { value: "p2p", label: "P2P" },
-  ];
-
-  const fundingMethods: { value: FundingMethod; label: string }[] = [
-    { value: "bank", label: "Bank Transfer" },
-    { value: "card", label: "Card" },
   ];
 
   return (
@@ -50,32 +45,6 @@ export default function FilterControls({
             ))}
           </div>
         </div>
-
-        {/* Funding Method Toggle - Only show for on-ramp */}
-        {filters.viewMode === "onramp" && (
-          <div className="flex-1">
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Funding Method
-            </label>
-            <div className="flex rounded-lg overflow-hidden border border-slate-300">
-              {fundingMethods.map((method) => (
-                <button
-                  key={method.value}
-                  onClick={() =>
-                    onFilterChange({ ...filters, fundingMethod: method.value })
-                  }
-                  className={`flex-1 px-3 py-2 text-sm font-medium transition-colors ${
-                    filters.fundingMethod === method.value
-                      ? "bg-slate-900 text-white"
-                      : "bg-white text-slate-700 hover:bg-slate-50"
-                  }`}
-                >
-                  {method.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* Region Filter */}
         <div className="flex-1">

@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
   ZoomableGroup,
 } from "react-simple-maps";
-import { RampCost, FilterState, getCostColor, COST_TIERS } from "@/lib/types";
+import { RampCost, FilterState, FundingMethod, getCostColor, COST_TIERS } from "@/lib/types";
 import { getCostValue } from "@/lib/utils";
 
 const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
@@ -31,17 +31,19 @@ interface CostMapProps {
 }
 
 export default function CostMap({ data, filters, onCountrySelect }: CostMapProps) {
+  const [fundingMethod, setFundingMethod] = useState<FundingMethod>("bank");
+
   const costByCountry = useMemo(() => {
     const map = new Map<string, { cost: number | null; country: RampCost }>();
     data.forEach((country) => {
       const alpha3 = countryCodeMap[country.countryCode];
       if (alpha3) {
-        const cost = getCostValue(country, filters.viewMode, filters.fundingMethod);
+        const cost = getCostValue(country, filters.viewMode, fundingMethod);
         map.set(alpha3, { cost, country });
       }
     });
     return map;
-  }, [data, filters]);
+  }, [data, filters.viewMode, fundingMethod]);
 
   const getCountryColor = (geo: { properties: { name: string }; id: string }) => {
     const countryData = costByCountry.get(geo.id);
@@ -59,13 +61,18 @@ export default function CostMap({ data, filters, onCountrySelect }: CostMapProps
   const getViewLabel = () => {
     switch (filters.viewMode) {
       case "onramp":
-        return filters.fundingMethod === "bank" ? "Bank On-Ramp" : "Card On-Ramp";
+        return fundingMethod === "bank" ? "Bank On-Ramp" : "Card On-Ramp";
       case "offramp":
         return "Off-Ramp";
       case "p2p":
         return "P2P Spread";
     }
   };
+
+  const fundingMethods: { value: FundingMethod; label: string }[] = [
+    { value: "bank", label: "Bank" },
+    { value: "card", label: "Card" },
+  ];
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-slate-200 overflow-hidden">
@@ -76,6 +83,23 @@ export default function CostMap({ data, filters, onCountrySelect }: CostMapProps
             Showing: {getViewLabel()} costs
           </p>
         </div>
+        {filters.viewMode === "onramp" && (
+          <div className="flex rounded-lg overflow-hidden border border-slate-300">
+            {fundingMethods.map((method) => (
+              <button
+                key={method.value}
+                onClick={() => setFundingMethod(method.value)}
+                className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+                  fundingMethod === method.value
+                    ? "bg-slate-900 text-white"
+                    : "bg-white text-slate-700 hover:bg-slate-50"
+                }`}
+              >
+                {method.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="relative aspect-[2/1] min-h-[300px]">

@@ -46,7 +46,7 @@ export default function RampModels({ models }: RampModelsProps) {
               <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
                 Model
               </th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
+              <th className="px-4 py-3 text-center text-xs font-semibold text-slate-600 uppercase tracking-wider">
                 Cost
               </th>
               <th className="px-4 py-3 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">
@@ -75,11 +75,11 @@ export default function RampModels({ models }: RampModelsProps) {
                     </span>
                   </td>
                   <td className="px-4 py-4 whitespace-nowrap">
-                    <div className="flex flex-col">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${colors.bg} ${colors.text}`}>
+                    <div className="flex flex-col items-center">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold ${colors.bg} ${colors.text}`}>
                         {model.costLevel}
                       </span>
-                      <span className="text-xs text-slate-500 mt-1">
+                      <span className="text-sm font-medium text-slate-700 mt-1">
                         {model.costRange}
                       </span>
                     </div>
